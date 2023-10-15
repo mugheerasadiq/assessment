@@ -43,6 +43,7 @@ model User {
   ID        Int      @id @default(autoincrement())
   Username  String   @unique
   Email     String   @unique
+  Password  String
   CountryID Int
   StateID   Int
   CityID    Int
