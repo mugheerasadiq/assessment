@@ -76,10 +76,55 @@ export const DeleteUser = async (req: any, res: any) => {
     });
 
     return res.status(200).json({
-        status: "SUCCESS",
-        message: "User deleted successfully",
-        data: null,
-      });
+      status: "SUCCESS",
+      message: "User deleted successfully",
+      data: null,
+    });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ status: false, message: "Internal Server Error", data: err });
+  }
+};
+
+export const GetAllUsers = async (req: any, res: any) => {
+  try {
+    const { skip, limit, sortField, sortOrder, filter } = req.query;
+
+    const queryOptions: {
+      skip?: number;
+      take?: number;
+      orderBy?: { [key: string]: "asc" | "desc" };
+      where?: { [key: string]: any };
+    } = {};
+
+    if (filter) {
+      queryOptions.where = {
+        OR: [
+          { Username: { contains: filter } },
+          { Email: { contains: filter } },
+        ],
+      };
+    }
+
+    if (sortField && sortOrder) {
+      queryOptions.orderBy = { [sortField]: sortOrder };
+    }
+
+    if (skip) {
+      queryOptions.skip = parseInt(skip);
+    }
+    if (limit) {
+      queryOptions.take = parseInt(limit);
+    }
+
+    const users = await dbClient.user.findMany(queryOptions);
+
+    return res.status(200).json({
+      status: "SUCCESS",
+      message: "User fetched successfully",
+      data: { users },
+    });
   } catch (err) {
     return res
       .status(500)
