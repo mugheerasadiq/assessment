@@ -1,17 +1,15 @@
 import React from "react";
 import styles from "./styles.module.css";
-import { SignupForm } from "./form/form";
+import { SignInForm } from "./form/form";
 import { Logo } from "../../components/custom/Logo";
-import Title from "antd/es/typography/Title";
 
-const Signup = () => {
+const Signin = () => {
   return (
     <div className={styles["container"]}>
       <Logo />
-      <h4 className={styles["heading"]}>Sign up</h4>
-      <SignupForm />
+      <SignInForm />
     </div>
   );
 };
 
-export default Signup;
+export default Signin;

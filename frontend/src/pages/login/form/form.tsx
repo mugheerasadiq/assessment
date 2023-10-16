@@ -12,7 +12,7 @@ const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
 };
 
-export const SignupForm = () => {
+export const SignInForm = () => {
   return (
     <div className={styles["container"]}>
       <Form
