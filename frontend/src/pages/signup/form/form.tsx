@@ -17,6 +17,7 @@ export const SignupForm = () => {
     <div className={styles["container"]}>
       <Form
         name="basic"
+        labelCol={{ span: 8 }}
         initialValues={{ remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
