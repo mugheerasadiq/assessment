@@ -13,7 +13,7 @@ function createToken(user: any) {
   return token;
 }
 
-export const Signup = async (req: any, res: any) => {
+export const signup = async (req: any, res: any) => {
   try {
     const { password, confirmpassword, username, email, country, state, city } =
       req.body;
@@ -77,7 +77,7 @@ export const Signup = async (req: any, res: any) => {
   }
 };
 
-export const Signin = async (req: any, res: any) => {
+export const signin = async (req: any, res: any) => {
   try {
     const { password, email } = req.body;
 
