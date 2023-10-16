@@ -4,11 +4,16 @@ export const getCities = async (req: any, res: any) => {
   try {
     const { countryID, stateID } = req.query;
 
+    let whereClause: any = {};
+
+    if (countryID) whereClause.CountryID = parseInt(countryID);
+
+    if (stateID) whereClause.StateID = parseInt(stateID);
+
+    console.log(whereClause)
+
     const cities = await dbClient.city.findMany({
-      where: {
-        CountryID: countryID ?? null,
-        StateID: stateID ?? null
-      },
+      where: whereClause
     });
 
     const data = { cities };

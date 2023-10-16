@@ -3,4 +3,4 @@ import { getCities } from '../controllers/city';
 
 export const cityRoutes = express.Router();
 
-cityRoutes.post("/city", getCities)
+cityRoutes.get("/city", getCities)

@@ -3,11 +3,15 @@ import dbClient from "../databaseClient";
 export const getStates = async (req: any, res: any) => {
   try {
     const { countryID } = req.query;
+    let whereClause = {};
+
+    if (countryID)
+      whereClause = {
+        CountryID: parseInt(countryID),
+      };
 
     const states = await dbClient.state.findMany({
-      where: {
-        CountryID: countryID ?? null,
-      },
+      where: whereClause,
     });
 
     const data = { states };

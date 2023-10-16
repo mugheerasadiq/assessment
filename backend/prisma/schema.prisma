@@ -10,7 +10,7 @@ datasource db {
 
 // Define the Country model
 model Country {
-  ID      Int      @id @default(autoincrement())
+  ID      Int      @id
   Name    String   @unique
   State   State[]
   City    City[]
@@ -19,7 +19,7 @@ model Country {
 
 // Define the State model
 model State {
-  ID        Int      @id @default(autoincrement())
+  ID        Int      @id
   Name      String
   CountryID Int
   Country   Country   @relation(fields: [CountryID], references: [ID], onDelete: NoAction, onUpdate: NoAction)
@@ -29,7 +29,7 @@ model State {
 
 // Define the City model
 model City {
-  ID       Int      @id @default(autoincrement())
+  ID       Int      @id
   Name     String
   CountryID Int
   StateID  Int
