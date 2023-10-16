@@ -1,4 +1,5 @@
 import AuthLayout from "../components/custom/layout/auth";
+import Signin from "../pages/login";
 import Signup from "../pages/signup";
 import { IRoute } from "../types";
 
@@ -6,6 +7,11 @@ export const PUBLIC_ROUTES: IRoute[] = [
   {
     path: "/",
     component: Signup,
+    layout: AuthLayout,
+  },
+  {
+    path: "/login",
+    component: Signin,
     layout: AuthLayout,
   },
 ];

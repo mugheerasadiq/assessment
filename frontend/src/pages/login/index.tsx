@@ -7,6 +7,7 @@ const Signin = () => {
   return (
     <div className={styles["container"]}>
       <Logo />
+      <h4 className={styles["heading"]}>Sign In</h4>
       <SignInForm />
     </div>
   );

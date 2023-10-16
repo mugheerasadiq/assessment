@@ -24,13 +24,6 @@ export const SignInForm = () => {
         className={styles["form-wrapper"]}
       >
         <Form.Item
-          name="username"
-          rules={[{ required: true, message: "Please input username!" }]}
-        >
-          <Input placeholder="Username" />
-        </Form.Item>
-
-        <Form.Item
           name="email"
           rules={[{ required: true, message: "Please input email!" }]}
         >
@@ -42,42 +35,6 @@ export const SignInForm = () => {
           rules={[{ required: true, message: "Please input password!" }]}
         >
           <Input.Password placeholder="Password" />
-        </Form.Item>
-
-        <Form.Item
-          name="confirmPpassword"
-          rules={[
-            { required: true, message: "Please input confirm password!" },
-          ]}
-        >
-          <Input.Password placeholder="Confirm Password" />
-        </Form.Item>
-
-        <Form.Item
-          name="country"
-          rules={[{ required: true, message: "Please select the country!" }]}
-        >
-          <Select placeholder="Country">
-            <Option>Pakistan</Option>
-          </Select>
-        </Form.Item>
-
-        <Form.Item
-          name="state"
-          rules={[{ required: true, message: "Please select the state!" }]}
-        >
-          <Select placeholder="State">
-            <Option>Sindh</Option>
-          </Select>
-        </Form.Item>
-
-        <Form.Item
-          name="city"
-          rules={[{ required: true, message: "Please select the city!" }]}
-        >
-          <Select placeholder="City">
-            <Option>Karachi</Option>
-          </Select>
         </Form.Item>
 
         <Form.Item>
