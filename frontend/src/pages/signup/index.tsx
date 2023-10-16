@@ -2,9 +2,9 @@ import React from "react";
 import styles from "./styles.module.css";
 import { SignupForm } from "./form/form";
 import { Logo } from "../../components/custom/Logo";
-import Title from "antd/es/typography/Title";
 
 const Signup = () => {
+  
   return (
     <div className={styles["container"]}>
       <Logo />
