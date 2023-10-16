@@ -15,7 +15,7 @@ export const getCities = async (req: any, res: any) => {
 
     return res
       .status(200)
-      .json({ status: true, message: "States fetched successfully", data });
+      .json({ status: true, message: "Cities fetched successfully", data });
   } catch (err) {
     return res
       .status(500)

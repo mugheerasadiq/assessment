@@ -1,6 +1,6 @@
 import express from 'express'
-import { signup } from '../controllers/auth';
+import {getCountries} from '../controllers/country';
 
-export const authRoutes = express.Router();
+export const countryRoutes = express.Router();
 
-authRoutes.post("/signup", signup)
+countryRoutes.get("/country", getCountries)
