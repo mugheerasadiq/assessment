@@ -16,11 +16,9 @@ export const getCities = async (req: any, res: any) => {
       where: whereClause
     });
 
-    const data = { cities };
-
     return res
       .status(200)
-      .json({ status: true, message: "Cities fetched successfully", data });
+      .json({ status: true, message: "Cities fetched successfully", cities });
   } catch (err) {
     return res
       .status(500)

@@ -4,7 +4,6 @@ import { SignupForm } from "./form/form";
 import { Logo } from "../../components/custom/Logo";
 
 const Signup = () => {
-  
   return (
     <div className={styles["container"]}>
       <Logo />

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { baseURL } from "../config/url";
 
 const fetchToken = () => {
   const token = `${localStorage.getItem("token")}`;
@@ -12,7 +13,7 @@ export const getRequest = async (
 ) => {
   const token = fetchToken();
   try {
-    const response = await axios.get(url, {
+    const response = await axios.get(`${baseURL}${url}`, {
       headers: authorizedReq
         ? {
             Authorization: "Bearer " + token,
@@ -33,7 +34,7 @@ export const postRequest = (
   data: any
 ) => {
   const token = fetchToken();
-  return axios.post(url, data, {
+  return axios.post(`${baseURL}${url}`, data, {
     headers: authorizedReq
       ? {
           Authorization: "Bearer " + token,

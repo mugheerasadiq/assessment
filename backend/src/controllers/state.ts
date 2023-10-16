@@ -14,11 +14,9 @@ export const getStates = async (req: any, res: any) => {
       where: whereClause,
     });
 
-    const data = { states };
-
     return res
       .status(200)
-      .json({ status: true, message: "States fetched successfully", data });
+      .json({ status: true, message: "States fetched successfully", states });
   } catch (err) {
     return res
       .status(500)

@@ -1,27 +1,103 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
-import { Button, Checkbox, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select } from "antd";
+import { UserInitials } from "./initialValues";
+import { getRequest, postRequest } from "../../../utils/apiHelper";
+import { cityURL, countryURL, signupURL, stateURL } from "../../../config/url";
+import { Country, State, User } from "../types";
 
 const { Option } = Select;
 
-const onFinish = (values: any) => {
-  console.log("Success:", values);
-};
-
-const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
-};
-
 export const SignupForm = () => {
+  const [country, setCountry] = useState([]);
+  const [state, setState] = useState([]);
+  const [city, setCity] = useState([]);
+  const [form] = Form.useForm();
+
+  const onFinish = async (values: User) => {
+    try {
+      const userPayload = makeUserPayload(values);
+      const response = await postRequest(signupURL, null, false, userPayload);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchCountries = async () => {
+    try {
+      const response = await getRequest(countryURL);
+      const countries = response?.data.countries;
+      if (countries) setCountry(countries);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchStates = async () => {
+    try {
+      const countryFormValue = form.getFieldValue("country");
+      const selectedCountry: any = country.find(
+        (item: Country) => item.Name === countryFormValue
+      );
+
+      const params = selectedCountry
+        ? {
+            countryID: selectedCountry.ID,
+          }
+        : undefined;
+
+      const response = await getRequest(stateURL, params);
+      const states = response?.data.states;
+      if (states) setState(states);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchCities = async () => {
+    try {
+      const stateFormValue = form.getFieldValue("state");
+      const selectedState: any = state.find(
+        (item: State) => item.Name === stateFormValue
+      );
+
+      const params = selectedState
+        ? {
+            countryID: selectedState.CountryID,
+            stateID: selectedState.ID,
+          }
+        : undefined;
+
+      const response = await getRequest(cityURL, params);
+      const states = response?.data.cities;
+      if (states) setCity(states);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const makeUserPayload = (user: User) => {
+    const selectedCity: any = city.find(
+      (item: State) => item.Name === user.state
+    );
+
+    return {
+      ...user,
+      country: selectedCity.CountryID,
+      state: selectedCity.StateID,
+      city: selectedCity.ID,
+    };
+  };
+
   return (
     <div className={styles["container"]}>
       <Form
         name="basic"
-        initialValues={{ remember: true }}
+        initialValues={UserInitials}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
         className={styles["form-wrapper"]}
+        form={form}
       >
         <Form.Item
           name="username"
@@ -57,8 +133,14 @@ export const SignupForm = () => {
           name="country"
           rules={[{ required: true, message: "Please select the country!" }]}
         >
-          <Select placeholder="Country">
-            <Option>Pakistan</Option>
+          <Select placeholder="Country" showSearch onClick={fetchCountries}>
+            {country.map((country: Country, index: number) => {
+              return (
+                <Option key={index} value={country.Name}>
+                  {country.Name}
+                </Option>
+              );
+            })}
           </Select>
         </Form.Item>
 
@@ -66,8 +148,14 @@ export const SignupForm = () => {
           name="state"
           rules={[{ required: true, message: "Please select the state!" }]}
         >
-          <Select placeholder="State">
-            <Option>Sindh</Option>
+          <Select placeholder="State" showSearch onClick={fetchStates}>
+            {state.map((state: State, index: number) => {
+              return (
+                <Option key={index} value={state.Name}>
+                  {state.Name}
+                </Option>
+              );
+            })}
           </Select>
         </Form.Item>
 
@@ -75,8 +163,14 @@ export const SignupForm = () => {
           name="city"
           rules={[{ required: true, message: "Please select the city!" }]}
         >
-          <Select placeholder="City">
-            <Option>Karachi</Option>
+          <Select placeholder="City" showSearch onClick={fetchCities}>
+            {city.map((city: State, index: number) => {
+              return (
+                <Option key={index} value={city.Name}>
+                  {city.Name}
+                </Option>
+              );
+            })}
           </Select>
         </Form.Item>
 
