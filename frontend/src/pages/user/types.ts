@@ -1,9 +1,13 @@
+import { City, Country, State } from "../signup/types"
+
 export type User = {
     ID: number,
     Username: string,
     Email: string,
-    Password: string,
-    Country: string,
-    State: string,
-    City: string
+    CityID: number,
+    CountryID: number,
+    StateID: number,
+    Country: Country,
+    City: City,
+    State: State
 }

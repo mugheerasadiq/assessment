@@ -129,10 +129,19 @@ export const getAllUsers = async (req: any, res: any) => {
 
     const users = await dbClient.user.findMany(queryOptions);
 
+    const totalCount = await dbClient.user.count({
+      where: queryOptions.where,
+    });
+
+    const data = {
+      users,
+      totalCount,
+    }
+
     return res.status(200).json({
       status: "SUCCESS",
       message: "User fetched successfully",
-      users,
+      data
     });
   } catch (err) {
     return res

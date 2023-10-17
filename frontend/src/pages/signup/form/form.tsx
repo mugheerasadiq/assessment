@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./styles.module.css";
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select, notification } from "antd";
 import { UserInitials } from "./initialValues";
 import { getRequest, postRequest } from "../../../utils/apiHelper";
 import { cityURL, countryURL, signupURL, stateURL } from "../../../config/url";
 import { Country, State, User } from "../types";
+import { NotificationContext } from "../../../context/notification/context";
+import { notificationType } from "../../../constants/notificationTypes";
+import { useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 
@@ -13,12 +16,33 @@ export const SignupForm = () => {
   const [state, setState] = useState([]);
   const [city, setCity] = useState([]);
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+
+  const { showNotification } = useContext(NotificationContext);
+
+  const saveUserInfo = (info: any) => {
+    localStorage.setItem("token", info.token);
+    localStorage.setItem("user", info.user);
+  };
 
   const onFinish = async (values: User) => {
     try {
       const userPayload = makeUserPayload(values);
-      const response = await postRequest(signupURL, null, false, userPayload);
-    } catch (err) {
+      const response = (await postRequest(signupURL, null, false, userPayload))
+        .data;
+
+      saveUserInfo(response);
+
+      showNotification(
+        notificationType.success,
+        "Success",
+        "User registered successfully"
+      );
+
+      navigate("/users");
+    } catch (err: any) {
+      const msg = err?.response?.data?.message;
+      showNotification(notificationType.error, "Error", msg);
       console.log(err);
     }
   };

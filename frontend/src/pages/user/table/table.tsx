@@ -13,7 +13,7 @@ export const UserTable = ({
   users,
   setUsers,
 }: any) => {
-  const pageSize = 50;
+  const pageSize = 5;
   const [columns, setColumns] = useState(userTableColumns);
   const [currentPage, setCurrentPage] = useState(1);
   const [tableConfig, setTableConfig] = useState({
@@ -22,8 +22,8 @@ export const UserTable = ({
     skip: 0,
     limit: pageSize,
     country: [],
-    city:  [],
-    state:  [],
+    city: [],
+    state: [],
   });
 
   const handleChange = () => {};
@@ -35,14 +35,14 @@ export const UserTable = ({
     current: currentPage,
     onChange: onPageChange,
     total: users.length,
-    defaultPageSize: 50,
+    defaultPageSize: 5,
   };
 
   const fetchUsers = async () => {
     try {
-      const response = await getRequest(userURL, tableConfig);
+      const response = (await getRequest(userURL, tableConfig)).data;
       console.log(response.data.users);
-      setUsers(response.data.users)
+      setUsers(response.data.users);
     } catch (err) {
       console.log(err);
     }
@@ -102,7 +102,12 @@ export const UserTable = ({
 
         <Button type="primary">Reset Filters</Button>
       </div>
-      <Table columns={columns} dataSource={users}/>
+      <Table
+        columns={columns}
+        dataSource={users}
+        pagination={paginationOptions}
+        bordered
+      />
     </div>
   );
 };
