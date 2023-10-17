@@ -15,10 +15,10 @@ function createToken(user: any) {
 
 export const signup = async (req: any, res: any) => {
   try {
-    const { password, confirmpassword, username, email, country, state, city } =
+    const { password, confirmPassword, username, email, country, state, city } =
       req.body;
 
-    if (password !== confirmpassword)
+    if (password !== confirmPassword)
       return res
         .status(400)
         .send({ status: false, message: "Password mis-matched" });

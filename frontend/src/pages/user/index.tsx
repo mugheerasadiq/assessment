@@ -9,6 +9,7 @@ const User = (): JSX.Element => {
   const [country, setCountry] = useState([]);
   const [state, setState] = useState([]);
   const [city, setCity] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const fetchCountries = async () => {
     try {
@@ -48,7 +49,7 @@ const User = (): JSX.Element => {
 
   return (
     <div className={styles["container"]}>
-      <UserTable countries={country} states={state} cities={city} />
+      <UserTable countries={country} states={state} cities={city} users={users} setUsers={setUsers}/>
     </div>
   );
 };

@@ -78,7 +78,7 @@ export const SignupForm = () => {
 
   const makeUserPayload = (user: User) => {
     const selectedCity: any = city.find(
-      (item: State) => item.Name === user.state
+      (item: State) => item.Name === user.city
     );
 
     return {
@@ -121,7 +121,7 @@ export const SignupForm = () => {
         </Form.Item>
 
         <Form.Item
-          name="confirmPpassword"
+          name="confirmPassword"
           rules={[
             { required: true, message: "Please input confirm password!" },
           ]}

@@ -89,20 +89,27 @@ export const DeleteUser = async (req: any, res: any) => {
 
 export const getAllUsers = async (req: any, res: any) => {
   try {
-    const { skip, limit, sortField, sortOrder, filter } = req.query;
+    const { skip, limit, sortField, sortOrder, countryID, cityID, stateID } =
+      req.query;
 
     const queryOptions: {
       skip?: number;
       take?: number;
       orderBy?: { [key: string]: "asc" | "desc" };
       where?: { [key: string]: any };
+      include?: {
+        Country: boolean;
+        City: boolean;
+        State: boolean;
+      };
     } = {};
 
-    if (filter) {
+    if (countryID || cityID || stateID) {
       queryOptions.where = {
         OR: [
-          { Username: { contains: filter } },
-          { Email: { contains: filter } },
+          { CountryID: { in: countryID.map((id: any) => parseInt(id)) } },
+          { StateID: { in: stateID.map((id: any) => parseInt(id)) } },
+          { CityID: { in: cityID.map((id: any) => parseInt(id)) } }, // Handle array of CityID values
         ],
       };
     }
@@ -118,12 +125,14 @@ export const getAllUsers = async (req: any, res: any) => {
       queryOptions.take = parseInt(limit);
     }
 
+    queryOptions.include = { City: true, Country: true, State: true };
+
     const users = await dbClient.user.findMany(queryOptions);
 
     return res.status(200).json({
       status: "SUCCESS",
       message: "User fetched successfully",
-      data: { users },
+      users,
     });
   } catch (err) {
     return res

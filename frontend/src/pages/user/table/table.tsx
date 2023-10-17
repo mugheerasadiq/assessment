@@ -1,12 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { userTableColumns } from "./columns";
 import { Table, Select, Button } from "antd";
+import type { PaginationProps } from "antd";
 import styles from "../styles.module.css";
+import { getRequest } from "../../../utils/apiHelper";
+import { userURL } from "../../../config/url";
 
-export const UserTable = ({ countries, states, cities }: any) => {
+export const UserTable = ({
+  countries,
+  states,
+  cities,
+  users,
+  setUsers,
+}: any) => {
+  const pageSize = 50;
   const [columns, setColumns] = useState(userTableColumns);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [tableConfig, setTableConfig] = useState({
+    sortField: "ID",
+    sortOrder: "asc",
+    skip: 0,
+    limit: pageSize,
+    country: [],
+    city:  [],
+    state:  [],
+  });
 
   const handleChange = () => {};
+
+  const onPageChange: PaginationProps["onChange"] = (page: any) =>
+    setCurrentPage(page);
+
+  const paginationOptions = {
+    current: currentPage,
+    onChange: onPageChange,
+    total: users.length,
+    defaultPageSize: 50,
+  };
+
+  const fetchUsers = async () => {
+    try {
+      const response = await getRequest(userURL, tableConfig);
+      console.log(response.data.users);
+      setUsers(response.data.users)
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   return (
     <div className={styles["table-container"]}>
@@ -58,7 +102,7 @@ export const UserTable = ({ countries, states, cities }: any) => {
 
         <Button type="primary">Reset Filters</Button>
       </div>
-      <Table columns={columns} />
+      <Table columns={columns} dataSource={users}/>
     </div>
   );
 };

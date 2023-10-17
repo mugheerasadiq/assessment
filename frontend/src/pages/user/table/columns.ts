@@ -22,6 +22,7 @@ export const userTableColumns: ColumnsType<User> = [
     key: "Country",
     align: "center",
     width: 120,
+    render: (data: any) => data.Name
   },
   {
     title: "State",
@@ -29,6 +30,7 @@ export const userTableColumns: ColumnsType<User> = [
     key: "State",
     align: "center",
     width: 120,
+    render: (data: any) => data.Name
   },
   {
     title: "City",
@@ -36,5 +38,6 @@ export const userTableColumns: ColumnsType<User> = [
     key: "City",
     align: "center",
     width: 120,
+    render: (data: any) => data.Name
   },
 ];
