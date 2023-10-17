@@ -63,7 +63,6 @@ export function UserProvider({
 
   useEffect(() => {
     fetchUsers()
-    console.log(filters);
   }, [filters, sort, currentPage])
 
   return (
