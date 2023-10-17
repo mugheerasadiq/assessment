@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { userTableColumns } from "./columns/columns";
-import { Table, Select, Button } from "antd";
+import { Table } from "antd";
 import type { PaginationProps } from "antd";
 import styles from "../styles.module.css";
-import { getRequest } from "../../../utils/apiHelper";
-import { userURL } from "../../../config/url";
 import { useUserContext } from "../context/userContext";
 import { Filters } from "./filters/filters.index";
 import { useLoaderContext } from "../../../context/loader/context";
-import { DeleteOutlined } from "@ant-design/icons";
 
 export const UserTable = () => {
   const [columns, setColumns] = useState(userTableColumns);

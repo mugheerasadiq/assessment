@@ -1,8 +1,8 @@
-import React from "react";
-import Signup from "./pages/signup";
 import { Routes, Route } from "react-router-dom";
 import { PRIVATE_ROUTES, PUBLIC_ROUTES } from "./config/routes";
 import { IRoute } from "./types";
+import PublicRoute from "./components/custom/route/public";
+import PrivateRoute from "./components/custom/route/private";
 
 const Main = () => {
   return (
@@ -13,11 +13,13 @@ const Main = () => {
             key={route.path}
             path={route.path}
             element={
-              <route.context>
-                <route.layout>
-                  <route.component />
-                </route.layout>
-              </route.context>
+              <PrivateRoute>
+                <route.context>
+                  <route.layout>
+                    <route.component />
+                  </route.layout>
+                </route.context>
+              </PrivateRoute>
             }
           />
         );
@@ -28,9 +30,11 @@ const Main = () => {
             key={route.path}
             path={route.path}
             element={
-              <route.layout>
-                <route.component />
-              </route.layout>
+              <PublicRoute>
+                <route.layout>
+                  <route.component />
+                </route.layout>
+              </PublicRoute>
             }
           />
         );
