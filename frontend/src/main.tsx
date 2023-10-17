@@ -13,9 +13,11 @@ const Main = () => {
             key={route.path}
             path={route.path}
             element={
-              <route.layout>
-                <route.component />
-              </route.layout>
+              <route.context>
+                <route.layout>
+                  <route.component />
+                </route.layout>
+              </route.context>
             }
           />
         );

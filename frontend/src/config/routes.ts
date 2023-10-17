@@ -3,6 +3,7 @@ import MainLayout from "../components/custom/layout/main";
 import Signin from "../pages/login";
 import Signup from "../pages/signup";
 import User from "../pages/user";
+import { UserProvider } from "../pages/user/context/userProvider";
 import { IRoute } from "../types";
 
 export const PUBLIC_ROUTES: IRoute[] = [
@@ -23,5 +24,6 @@ export const PRIVATE_ROUTES: IRoute[] = [
     path: "/users",
     component: User,
     layout: MainLayout,
+    context: UserProvider
   },
 ];

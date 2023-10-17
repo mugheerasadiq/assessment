@@ -43,3 +43,20 @@ export const postRequest = (
     params: params ? params : undefined,
   });
 };
+
+export const deleteRequest = (
+  url: string,
+  params: any = null,
+  authorizedReq: boolean,
+) => {
+  const token = fetchToken();
+  return axios.delete(`${baseURL}${url}`,{
+    headers: authorizedReq
+      ? {
+          Authorization: "Bearer " + token,
+        }
+      : undefined,
+    params: params ? params : undefined,
+  });
+};
+

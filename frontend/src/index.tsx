@@ -5,6 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import "./styles/index.css";
 import { NotificationProvider } from "./context/notification/provider";
+import { LoaderProvider } from "./context/loader/provider";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -13,7 +14,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <NotificationProvider>
-        <Main />
+        <LoaderProvider>
+          <Main />
+        </LoaderProvider>
       </NotificationProvider>
     </BrowserRouter>
   </React.StrictMode>

@@ -5,7 +5,7 @@ export const UserInitials : User = {
     email: "",
     password: "",
     confirmPassword: "",
-    country: "",
-    state: "",
-    city: ""
+    country: undefined,
+    state: undefined,
+    city: undefined
 }

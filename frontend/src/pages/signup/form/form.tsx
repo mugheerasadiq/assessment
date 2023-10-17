@@ -21,8 +21,8 @@ export const SignupForm = () => {
   const { showNotification } = useContext(NotificationContext);
 
   const saveUserInfo = (info: any) => {
-    localStorage.setItem("token", info.token);
-    localStorage.setItem("user", info.user);
+    localStorage.setItem("token", info.data.token);
+    localStorage.setItem("user", JSON.stringify(info.data.user));
   };
 
   const onFinish = async (values: User) => {
@@ -52,8 +52,9 @@ export const SignupForm = () => {
       const response = await getRequest(countryURL);
       const countries = response?.data.countries;
       if (countries) setCountry(countries);
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      const msg = err?.response?.data?.message;
+      showNotification(notificationType.error, "Error", msg);
     }
   };
 
@@ -73,8 +74,9 @@ export const SignupForm = () => {
       const response = await getRequest(stateURL, params);
       const states = response?.data.states;
       if (states) setState(states);
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      const msg = err?.response?.data?.message;
+      showNotification(notificationType.error, "Error", msg);
     }
   };
 
@@ -95,8 +97,9 @@ export const SignupForm = () => {
       const response = await getRequest(cityURL, params);
       const states = response?.data.cities;
       if (states) setCity(states);
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      const msg = err?.response?.data?.message;
+      showNotification(notificationType.error, "Error", msg);
     }
   };
 
@@ -132,7 +135,13 @@ export const SignupForm = () => {
 
         <Form.Item
           name="email"
-          rules={[{ required: true, message: "Please input email!" }]}
+          rules={[
+            { required: true, message: "Please input email!" },
+            {
+              type: "email",
+              message: "The input is not valid E-mail!",
+            },
+          ]}
         >
           <Input placeholder="Email" />
         </Form.Item>
@@ -157,7 +166,7 @@ export const SignupForm = () => {
           name="country"
           rules={[{ required: true, message: "Please select the country!" }]}
         >
-          <Select placeholder="Country" showSearch onClick={fetchCountries}>
+          <Select placeholder="Country" onClick={fetchCountries}>
             {country.map((country: Country, index: number) => {
               return (
                 <Option key={index} value={country.Name}>

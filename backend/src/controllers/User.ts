@@ -1,6 +1,6 @@
 import dbClient from "../databaseClient";
 
-export const UpdateUser = async (req: any, res: any) => {
+export const updateUser = async (req: any, res: any) => {
   try {
     const { username, email, country, state, city } = req.body;
 
@@ -53,12 +53,12 @@ export const UpdateUser = async (req: any, res: any) => {
   }
 };
 
-export const DeleteUser = async (req: any, res: any) => {
+export const deleteUser = async (req: any, res: any) => {
   try {
     const { id } = req.params;
 
     const existingUser = await dbClient.user.findUnique({
-      where: { ID: id },
+      where: { ID: parseInt(id) },
     });
 
     if (!existingUser) {
@@ -71,7 +71,7 @@ export const DeleteUser = async (req: any, res: any) => {
 
     await dbClient.user.delete({
       where: {
-        ID: id,
+        ID: parseInt(id),
       },
     });
 
@@ -89,7 +89,7 @@ export const DeleteUser = async (req: any, res: any) => {
 
 export const getAllUsers = async (req: any, res: any) => {
   try {
-    const { skip, limit, sortField, sortOrder, countryID, cityID, stateID } =
+    const { skip, limit, sortField, sortOrder, city, country, state } =
       req.query;
 
     const queryOptions: {
@@ -104,14 +104,21 @@ export const getAllUsers = async (req: any, res: any) => {
       };
     } = {};
 
-    if (countryID || cityID || stateID) {
+    queryOptions.where = {};
+
+    if (state) {
+      queryOptions.where = { StateID: parseInt(state) };
+    }
+
+    if (country) {
       queryOptions.where = {
-        OR: [
-          { CountryID: { in: countryID.map((id: any) => parseInt(id)) } },
-          { StateID: { in: stateID.map((id: any) => parseInt(id)) } },
-          { CityID: { in: cityID.map((id: any) => parseInt(id)) } }, // Handle array of CityID values
-        ],
+        ...queryOptions.where,
+        CountryID: parseInt(country),
       };
+    }
+
+    if (city) {
+      queryOptions.where = { ...queryOptions.where, CityID: parseInt(city) };
     }
 
     if (sortField && sortOrder) {
@@ -136,12 +143,12 @@ export const getAllUsers = async (req: any, res: any) => {
     const data = {
       users,
       totalCount,
-    }
+    };
 
     return res.status(200).json({
       status: "SUCCESS",
       message: "User fetched successfully",
-      data
+      data,
     });
   } catch (err) {
     return res

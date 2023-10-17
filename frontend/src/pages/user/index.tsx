@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { getRequest } from "../../utils/apiHelper";
-import { cityURL, countryURL, stateURL } from "../../config/url";
+import { cityURL, countryURL, stateURL, userURL } from "../../config/url";
 import { Country } from "../signup/types";
 import { UserTable } from "./table/table";
+import { UserProvider } from "./context/userProvider";
+import { useUserContext } from "./context/userContext";
 
 const User = (): JSX.Element => {
-  const [country, setCountry] = useState([]);
-  const [state, setState] = useState([]);
-  const [city, setCity] = useState([]);
-  const [users, setUsers] = useState([]);
+  const { setCountries, setCities, setStates, fetchUsers } = useUserContext();
 
   const fetchCountries = async () => {
     try {
       const response = await getRequest(countryURL);
       const countries = response?.data.countries;
-      if (countries) setCountry(countries);
+      if (countries) setCountries(countries);
     } catch (err) {
       console.log(err);
     }
@@ -25,7 +24,7 @@ const User = (): JSX.Element => {
     try {
       const response = await getRequest(stateURL);
       const states = response?.data.states;
-      if (states) setState(states);
+      if (states) setStates(states);
     } catch (err) {
       console.log(err);
     }
@@ -35,7 +34,7 @@ const User = (): JSX.Element => {
     try {
       const response = await getRequest(cityURL);
       const states = response?.data.cities;
-      if (states) setCity(states);
+      if (states) setCities(states);
     } catch (err) {
       console.log(err);
     }
@@ -45,11 +44,12 @@ const User = (): JSX.Element => {
     fetchCountries();
     fetchStates();
     fetchCities();
+    fetchUsers()
   }, []);
 
   return (
     <div className={styles["container"]}>
-      <UserTable countries={country} states={state} cities={city} users={users} setUsers={setUsers}/>
+      <UserTable />
     </div>
   );
 };

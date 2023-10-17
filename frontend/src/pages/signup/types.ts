@@ -4,9 +4,9 @@ export type User = {
     email: string,
     password: string,
     confirmPassword: string,
-    country: string,
-    state: string,
-    city: string
+    country: string | undefined,
+    state: string | undefined,
+    city: string | undefined
 }
 
 export type Country = {

@@ -1,31 +1,55 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./styles.module.css";
-import { Button, Checkbox, Form, Input, Select } from "antd";
+import { Button, Form, Input } from "antd";
+import { postRequest } from "../../../utils/apiHelper";
+import { signinURL } from "../../../config/url";
+import { NotificationContext } from "../../../context/notification/context";
+import { notificationType } from "../../../constants/notificationTypes";
+import { useNavigate } from "react-router-dom";
 
-const { Option } = Select;
 
-const onFinish = (values: any) => {
-  console.log("Success:", values);
-};
-
-const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
-};
 
 export const SignInForm = () => {
+  const { showNotification } = useContext(NotificationContext);
+  const navigate = useNavigate();
+
+  const saveUserInfo = (info: any) => {
+    localStorage.setItem("token", info.data.token);
+    localStorage.setItem("user", JSON.stringify(info.data.user));
+  };
+  
+  const onFinish = async (values: any) => {
+    try{
+      const response = (await postRequest(signinURL, null, false, values)).data;
+      saveUserInfo(response);
+      navigate("/users");
+    }
+    catch(err: any){
+      const msg = err?.response?.data?.message;
+      showNotification(notificationType.error, "Error", msg);
+      console.log(err);
+    }
+};
+
+
   return (
     <div className={styles["container"]}>
       <Form
         name="basic"
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
         className={styles["form-wrapper"]}
       >
         <Form.Item
           name="email"
-          rules={[{ required: true, message: "Please input email!" }]}
+          rules={[
+            { required: true, message: "Please input email!" },
+            {
+              type: "email",
+              message: "The input is not valid E-mail!",
+            },
+          ]}
         >
           <Input placeholder="Email" />
         </Form.Item>

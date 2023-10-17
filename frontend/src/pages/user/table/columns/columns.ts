@@ -1,5 +1,6 @@
 import { ColumnsType } from "antd/es/table";
-import { User } from "../types";
+import { User } from "../../types";
+import { ActionColumnRenderer } from "./columnRenderer";
 
 export const userTableColumns: ColumnsType<User> = [
   {
@@ -39,5 +40,12 @@ export const userTableColumns: ColumnsType<User> = [
     align: "center",
     width: 120,
     render: (data: any) => data.Name
+  },
+  {
+    width: 80,
+    title: 'Action',
+    key: 'action',
+    align: "center",
+    render: ActionColumnRenderer
   },
 ];
