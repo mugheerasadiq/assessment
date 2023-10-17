@@ -87,7 +87,7 @@ export const DeleteUser = async (req: any, res: any) => {
   }
 };
 
-export const GetAllUsers = async (req: any, res: any) => {
+export const getAllUsers = async (req: any, res: any) => {
   try {
     const { skip, limit, sortField, sortOrder, filter } = req.query;
 

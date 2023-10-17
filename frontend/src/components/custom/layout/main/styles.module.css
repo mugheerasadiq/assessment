@@ -1,0 +1,16 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(235, 235, 235, 0.7);
+}
+
+.header-container{
+    background-color: white;
+    width: 100%;
+    border-bottom: 1px solid #b6b6b6;
+    padding: 20px;
+    padding-left: 40px;
+    box-sizing: border-box;
+}

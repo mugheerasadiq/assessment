@@ -2,3 +2,19 @@
     background-color: white;
 
 }
+
+.table-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-container{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+.filter-box{
+    margin-right: 10px;
+}

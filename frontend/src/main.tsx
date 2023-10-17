@@ -7,15 +7,19 @@ import { IRoute } from "./types";
 const Main = () => {
   return (
     <Routes>
-      {/* {PRIVATE_ROUTES.map((route: IRoute) => {
+      {PRIVATE_ROUTES.map((route: IRoute) => {
         return (
           <Route
             key={route.path}
             path={route.path}
-            element={<route.component />}
+            element={
+              <route.layout>
+                <route.component />
+              </route.layout>
+            }
           />
         );
-      })} */}
+      })}
       {PUBLIC_ROUTES.map((route: IRoute) => {
         return (
           <Route
